@@ -1,240 +1,391 @@
-// Copyright 2023 Danny Nguyen (danny@keeb.io)
-// SPDX-License-Identifier: GPL-2.0-or-later
-
 #include QMK_KEYBOARD_H
 
-// Each layer gets a name for readability, which is then used in the keymap matrix below.
-// The underscores don't mean anything - you can have a layer called STUFF or any other name.
-// Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers.
-enum layer_names {
-    _QWERTY,
-    _COLEMAK,
-    _DVORAK,
-    _LOWER,
-    _RAISE,
-    _ADJUST
-};
+/* Layer declarations. */
+enum layer_names { _QWERTY, _ARROWS, _QMK, _NUMPAD, _MOUSE, _FN, _GAMING, _GAMING_MOUSE };
 
-enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  COLEMAK,
-  DVORAK,
-  LOWER,
-  RAISE,
-  ADJUST,
+/* Combo declarations. */
+/* clang-format off */
+enum combos {
+    /* Top Row. */
+    QA, WS, ED, RF, TG,
+    /* split */
+    YH, UJ, IK, OL, PSEMICOLON,
+    /* Right Side. */
+    ENTERBACKSPACE, SEMICOLONENTER, PBACKSPACE, SLASHSHIFT, OP,
+    /* Space Area. */
+    LGUILCONTROL, SPACERCONTROL,
+    /* Quick Paren. */
+    DF, FG, HJ, JK,
+    /* Mouse. */
+    KM, BTNONEBTNTWO, WHEELUPWHEELDOWN,
+    /* Arrow Keys. */
+    RECONERSTPPLYONE, DOWNUPRIGHT,
+    /* Numpad. */
+    KEYPADMINUSKEYPADPLUS, KEYPADPLUSKEPADEQUAL
 };
+/* clang-format on */
 
+/* Combo presses. */
+/* Top Row. */
+const uint16_t PROGMEM qa_combo[] = {KC_Q, KC_A, COMBO_END};
+const uint16_t PROGMEM ws_combo[] = {KC_W, KC_S, COMBO_END};
+const uint16_t PROGMEM ed_combo[] = {KC_E, KC_D, COMBO_END};
+const uint16_t PROGMEM rf_combo[] = {KC_R, KC_F, COMBO_END};
+const uint16_t PROGMEM tg_combo[] = {KC_T, KC_G, COMBO_END};
+/* split */
+const uint16_t PROGMEM yh_combo[]         = {KC_Y, KC_H, COMBO_END};
+const uint16_t PROGMEM uj_combo[]         = {KC_U, KC_J, COMBO_END};
+const uint16_t PROGMEM ik_combo[]         = {KC_I, KC_K, COMBO_END};
+const uint16_t PROGMEM ol_combo[]         = {KC_O, KC_L, COMBO_END};
+const uint16_t PROGMEM psemicolon_combo[] = {KC_P, KC_SCLN, COMBO_END};
+
+/* Right Side. */
+const uint16_t PROGMEM enterbackspace_combo[] = {KC_ENT, KC_BSPC, COMBO_END};
+const uint16_t PROGMEM semicolonenter_combo[] = {KC_SCLN, KC_ENT, COMBO_END};
+const uint16_t PROGMEM pbackspace_combo[]     = {KC_P, KC_BSPC, COMBO_END};
+const uint16_t PROGMEM slashshift_combo[]     = {KC_SLSH, KC_RSFT, COMBO_END};
+const uint16_t PROGMEM op_combo[]             = {KC_O, KC_P, COMBO_END};
+
+/* Space Area. */
+const uint16_t PROGMEM lguilcontrol_combo[]  = {KC_LGUI, KC_LCTL, COMBO_END};
+const uint16_t PROGMEM spacercontrol_combo[] = {KC_SPC, KC_RCTL, COMBO_END};
+
+/* Quick Parens. */
+const uint16_t PROGMEM df_combo[] = {KC_D, KC_F, COMBO_END};
+const uint16_t PROGMEM fg_combo[] = {KC_F, KC_G, COMBO_END};
+const uint16_t PROGMEM hj_combo[] = {KC_H, KC_J, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+
+/* Mouse. */
+const uint16_t PROGMEM km_combo[]               = {KC_K, KC_M, COMBO_END};
+const uint16_t PROGMEM btnonebtntwo_combo[]     = {KC_MS_BTN1, KC_MS_BTN2, COMBO_END};
+const uint16_t PROGMEM wheelupwheeldown_combo[] = {KC_WH_U, KC_WH_D, COMBO_END};
+
+/* Arrow Keys. */
+const uint16_t PROGMEM reconerstpplyone_combo[] = {DM_REC1, DM_RSTP, DM_PLY1, COMBO_END};
+const uint16_t PROGMEM downupright_combo[]      = {KC_UP, KC_DOWN, KC_RIGHT, COMBO_END};
+
+/* Numpad. */
+const uint16_t PROGMEM keypadminskeypadplus_combo[]  = {KC_PMNS, KC_PPLS, COMBO_END};
+const uint16_t PROGMEM keypadpluskeypadequal_combo[] = {KC_PPLS, KC_PEQL, COMBO_END};
+
+/* Combo Results.*/
+/* clang-format off */
+combo_t key_combos[COMBO_COUNT] = {
+    /* Top Row. */
+    [QA] = COMBO(qa_combo, KC_1),
+    [WS] = COMBO(ws_combo, KC_2),
+    [ED] = COMBO(ed_combo, KC_3),
+    [RF] = COMBO(rf_combo, KC_4),
+    [TG] = COMBO(tg_combo, KC_5),
+    /* split */
+    [YH] = COMBO(yh_combo, KC_6),
+    [UJ] = COMBO(uj_combo, KC_7),
+    [IK] = COMBO(ik_combo, KC_8),
+    [OL] = COMBO(ol_combo, KC_9),
+    [PSEMICOLON] = COMBO(psemicolon_combo, KC_0),
+    /* Right Side. */
+    [ENTERBACKSPACE] = COMBO(enterbackspace_combo, KC_DEL),
+    [SEMICOLONENTER] = COMBO(semicolonenter_combo, KC_QUOTE),
+    [PBACKSPACE] = COMBO(pbackspace_combo, KC_MINUS),
+    [SLASHSHIFT] = COMBO(slashshift_combo, KC_EQUAL),
+    [OP] = COMBO(op_combo, KC_BACKSLASH),
+    /* Space Area. */
+    [LGUILCONTROL] = COMBO(lguilcontrol_combo, KC_SPACE),
+    [SPACERCONTROL] = COMBO(spacercontrol_combo, KC_RALT),
+    /* Quick Parens. */
+    [DF] = COMBO(df_combo, KC_LEFT_BRACKET),
+    [FG] = COMBO(fg_combo, KC_LEFT_PAREN),
+    [HJ] = COMBO(hj_combo, KC_RIGHT_PAREN),
+    [JK] = COMBO(jk_combo, KC_RIGHT_BRACKET),
+    [KM] = COMBO(km_combo, TG(_MOUSE)),
+    /* Mouse. */
+    [BTNONEBTNTWO] = COMBO(btnonebtntwo_combo, KC_MS_BTN3),
+    [WHEELUPWHEELDOWN] = COMBO(wheelupwheeldown_combo, KC_MS_BTN3),
+    /* Arrow Keys. */
+    [RECONERSTPPLYONE] =COMBO(reconerstpplyone_combo, TG(_ARROWS)),
+    [DOWNUPRIGHT] = COMBO(downupright_combo, TG(_ARROWS)),
+    /* Numpad. */
+    [KEYPADMINUSKEYPADPLUS] = COMBO(keypadminskeypadplus_combo, KC_PAST),
+    [KEYPADPLUSKEPADEQUAL] = COMBO(keypadpluskeypadequal_combo, KC_PSLS)
+};
+/* clang-format on */
+
+/* Decide when to squash combos. */
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    /* Simplify combo selection when in _GAMING layer. */
+    if (IS_LAYER_ON(_GAMING)) {
+        switch (combo_index) {
+            case KM: /* No entry to _MOUSE. */
+            case DF: /* No quick parens. */
+            case FG:
+            case HJ:
+            case JK:
+            case BTNONEBTNTWO: /* No quick KC_MS_BTN3. */
+                return false;
+        }
+    }
+
+    return true;
+}
+
+/* Enumerate the desired tapdance states to react to. */
+/* clang-format off */
+typedef enum {
+    TD_NONE,
+    TD_SINGLE_TAP,
+    TD_SINGLE_HOLD,
+    TD_SINGLE_TAP_HOLD,
+    TD_DOUBLE_TAP
+} td_state_t;
+/* clang-format on */
+
+/* Tap Dance data struct. */
+typedef struct {
+    bool       is_press_action;
+    td_state_t state;
+} td_tap_t;
+
+/* Return the input type of the current Tap Dance. */
+td_state_t tap_dance_input(tap_dance_state_t *state) {
+    switch (state->count) {
+        case 1:
+            if (!state->pressed)
+                return TD_SINGLE_TAP;
+            else
+                return TD_SINGLE_HOLD;
+        case 2:
+            if (!state->pressed)
+                return TD_DOUBLE_TAP;
+            else
+                return TD_SINGLE_TAP_HOLD;
+        default:
+            return TD_NONE;
+    }
+}
+
+/* A place to store the dance state inside the numpad_qmk_dance_* functions. */
+static td_tap_t numpad_qmk_dance_state = {.is_press_action = false, .state = TD_NONE};
+
+/* Act at the end of the Tap Dance key presses.
+   If the final action of the dance is a hold, the release will be reacted
+   to in the reset function. */
+void numpad_qmk_dance_finished(tap_dance_state_t *state, void *user_data) {
+    numpad_qmk_dance_state.state = tap_dance_input(state);
+
+    switch (numpad_qmk_dance_state.state) {
+        case TD_SINGLE_TAP: /* Once for _NUMPAD. */
+            layer_invert(_NUMPAD);
+            break;
+        case TD_SINGLE_HOLD:
+            layer_on(_NUMPAD);
+            break;
+        case TD_DOUBLE_TAP: /* Twice for _QMK. */
+            layer_invert(_QMK);
+            break;
+        default:
+            break;
+    }
+}
+
+/* React to the final key press being released. */
+void numpad_qmk_dance_reset(tap_dance_state_t *state, void *user_data) {
+    switch (numpad_qmk_dance_state.state) {
+        case TD_SINGLE_HOLD:
+            layer_off(_NUMPAD);
+        default:
+            break;
+    }
+
+    /* Reset the state for next use. */
+    numpad_qmk_dance_state.state = TD_NONE;
+}
+
+/* Tap Dance declarations. */
+enum { TD_ESC_TAB, TD_NUMPAD_QMK };
+
+/* Tap Dance definitions. */
+/* clang-format off */
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_ESC_TAB] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_TAB),
+    [TD_NUMPAD_QMK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, numpad_qmk_dance_finished, numpad_qmk_dance_reset)
+
+};
+/* clang-format on */
+
+/* Keymap definitions.
+ *
+ * !!
+ * !! Do not use tap dance on the alpha keys or minus.  Doing so wrecks Caps Word.
+ * !!
+ */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    /* clang-format off */
+    [_QWERTY] = LAYOUT_ortho_4x12(
+        TD(TD_ESC_TAB), KC_Q, KC_W, KC_E, KC_R, KC_T, /*split*/ KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
+        TD(TD_NUMPAD_QMK), KC_A, KC_S, KC_D, KC_F, KC_G, /*split*/ KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_ENT,
+        KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, /*split*/ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
+        CW_TOGG, OSL(_FN), KC_GRV, KC_LALT, KC_LGUI, KC_LCTL, /*split*/ KC_SPC, KC_RCTL, KC_INS, DM_REC1, DM_RSTP, DM_PLY1),
 
-/* Qwerty
- * ,-----------------------------------------------------------------------------------.
- * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Del  |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |Adjust| Ctrl | Alt  | GUI  |Lower |Space |Space |Raise | Left | Down |  Up  |Right |
- * `-----------------------------------------------------------------------------------'
- */
-[_QWERTY] = LAYOUT_ortho_5x12(
-  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_DEL,
-  KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-  KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
-  ADJUST,  KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
-),
+    [_ARROWS] = LAYOUT_ortho_4x12(
+        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT),
 
-/* Colemak
- * ,-----------------------------------------------------------------------------------.
- * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |   Q  |   W  |   F  |   P  |   G  |   J  |   L  |   U  |   Y  |   ;  | Del  |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Esc  |   A  |   R  |   S  |   T  |   D  |   H  |   N  |   E  |   I  |   O  |  "   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   K  |   M  |   ,  |   .  |   /  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |Adjust| Ctrl | Alt  | GUI  |Lower |Space |Space |Raise | Left | Down |  Up  |Right |
- * `-----------------------------------------------------------------------------------'
- */
-[_COLEMAK] = LAYOUT_ortho_5x12(
-  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-  KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_DEL,
-  KC_ESC,  KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
-  KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
-  ADJUST,  KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
-),
+    [_QMK] = LAYOUT_ortho_4x12(
+        KC_SLEP, KC_BRID, KC_BRIU, KC_KB_MUTE, KC_KB_VOLUME_DOWN, KC_KB_VOLUME_UP, /*split*/ _______, _______, _______, _______, _______, _______,
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TO(_GAMING), /*split*/ _______, _______, _______, _______, _______, _______,
+        AS_TOGG, XXXXXXX, RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, /*split*/ _______, _______, _______, _______, _______, _______,
+        DM_PLY1, DM_PLY2 , DM_RSTP, DM_REC1, DM_REC2, XXXXXXX, /*split*/ _______, _______, _______, _______, _______, _______),
 
-/* Dvorak
- * ,-----------------------------------------------------------------------------------.
- * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |   "  |   ,  |   .  |   P  |   Y  |   F  |   G  |   C  |   R  |   L  | Del  |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Esc  |   A  |   O  |   E  |   U  |   I  |   D  |   H  |   T  |   N  |   S  |  /   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   ;  |   Q  |   J  |   K  |   X  |   B  |   M  |   W  |   V  |   Z  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |Adjust| Ctrl | Alt  | GUI  |Lower |Space |Space |Raise | Left | Down |  Up  |Right |
- * `-----------------------------------------------------------------------------------'
- */
-[_DVORAK] = LAYOUT_ortho_5x12(
-  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-  KC_TAB,  KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_DEL,
-  KC_ESC,  KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_SLSH,
-  KC_LSFT, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_ENT ,
-  ADJUST,  KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
-),
+    [_NUMPAD] = LAYOUT_ortho_4x12(
+        _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, KC_7, KC_8, KC_9, KC_PMNS, _______,
+        _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, KC_4, KC_5, KC_6, KC_PPLS, _______,
+        _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, KC_1, KC_2, KC_3, KC_PEQL, XXXXXXX,
+        _______, _______, _______, _______, _______, _______, /*split*/ KC_0, KC_0, KC_0, KC_PDOT, KC_PENT, XXXXXXX),
 
-/* Lower
- * ,-----------------------------------------------------------------------------------.
- * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  | Bksp |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  | Del  |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   _  |   +  |     |    \  |  |   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO ~ |ISO | | Home | End  |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
- * `-----------------------------------------------------------------------------------'
- */
-[_LOWER] = LAYOUT_ortho_5x12(
-  KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
-  KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,
-  KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE,
-  BL_STEP, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,S(KC_NUHS),S(KC_NUBS),KC_HOME,KC_END, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
-),
+    [_MOUSE] = LAYOUT_ortho_4x12(
+        _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, KC_WH_U, XXXXXXX, KC_WH_D, XXXXXXX, XXXXXXX,
+        _______, _______, _______, _______, _______, _______, /*split*/ KC_MS_L, KC_MS_U, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX,
+        _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, TG(_MOUSE), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        _______, _______, _______, _______, _______, _______, /*split*/ KC_MS_BTN1, KC_MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX),
 
-/* Raise
- * ,-----------------------------------------------------------------------------------.
- * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Del  |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Del  |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   -  |   =  |   [  |   ]  |  \   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |ISO # |ISO / |Pg Up |Pg Dn |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
- * `-----------------------------------------------------------------------------------'
- */
-[_RAISE] = LAYOUT_ortho_5x12(
-  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,
-  KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,
-  _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_NUHS, KC_NUBS, KC_PGUP, KC_PGDN, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
-),
+    [_FN] = LAYOUT_ortho_4x12(
+        KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, /*split*/ KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
+        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+        _______, TG(_FN), _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______),
 
-/* Adjust (Lower + Raise)
- * ,-----------------------------------------------------------------------------------.
- * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      | Reset|RGB Tg|RGB Md|Hue Up|Hue Dn|Sat Up|Sat Dn|Val Up|Val Dn|      |  Del |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |      |      |Aud on|Audoff|AGnorm|AGswap|Qwerty|Colemk|Dvorak|      |      |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      |      |      |      |      |
- * `-----------------------------------------------------------------------------------'
- */
-[_ADJUST] =  LAYOUT_ortho_5x12(
-  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-  _______, QK_BOOT, RGB_TOG, RGB_MOD, RGB_HUD, RGB_HUI, RGB_SAD, RGB_SAI, RGB_VAD, RGB_VAI, _______, KC_DEL,
-  _______, _______, _______, AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  COLEMAK, DVORAK,  _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-)
+    [_GAMING] = LAYOUT_ortho_4x12(
+        KC_ESC, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+        KC_TAB, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+        TG(_GAMING), _______, _______, KC_RALT, KC_LCTL, KC_SPC, /*split*/ _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, TG(_GAMING_MOUSE)),
 
+    [_GAMING_MOUSE] = LAYOUT_ortho_4x12(
+        _______, _______, _______, _______, _______, _______, /*split*/ _______, KC_WH_U, KC_MS_U, KC_WH_D, _______, _______,
+        _______, _______, _______, _______, _______, _______, /*split*/ _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______,
+        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, /*split*/ KC_MS_BTN1, KC_MS_BTN2, KC_MS_BTN3, _______, _______, TG(_GAMING_MOUSE))
 
+    // [_EMPTY] = LAYOUT_ortho_4x12(
+    //     _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+    //     _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+    //     _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
+    //     _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______
+    // )
+
+    /* clang-format on */
 };
 
-#ifdef AUDIO_ENABLE
-float tone_qwerty[][2]     = SONG(QWERTY_SOUND);
-float tone_dvorak[][2]     = SONG(DVORAK_SOUND);
-float tone_colemak[][2]    = SONG(COLEMAK_SOUND);
-#endif
+#define HSV_AZURE_DARK       132, 102, 40
+#define HSV_BLUE_DARK        170, 255, 40
+#define HSV_CHARTREUSE_DARK   64, 255, 40
+#define HSV_CORAL_DARK        11, 176, 40
+#define HSV_CYAN_DARK        128, 255, 40
+#define HSV_GOLD_DARK         36, 255, 40
+#define HSV_GOLDENROD_DARK    30, 218, 40
+#define HSV_GREEN_DARK        85, 255, 40
+#define HSV_MAGENTA_DARK     213, 255, 40
+#define HSV_ORANGE_DARK       21, 255, 40
+#define HSV_PINK_DARK        234, 128, 40
+#define HSV_PURPLE_DARK      191, 255, 40
+#define HSV_RED_DARK           0, 255, 40
+#define HSV_SPRINGGREEN_DARK 106, 255, 40
+#define HSV_TEAL_DARK        128, 255, 40
+#define HSV_TURQUOISE_DARK   123,  90, 40
+#define HSV_WHITE_DARK         0,   0, 40
+#define HSV_YELLOW_DARK       43, 255, 40
 
-void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
-  default_layer_set(default_layer);
+
+/* Light layers for keymap layer indication. */
+const rgblight_segment_t PROGMEM _QWERTY_LIGHTS[]       = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_WHITE_DARK}, /* split */ {6, 6, HSV_WHITE_DARK});
+const rgblight_segment_t PROGMEM _ARROW_LIGHTS[]        = RGBLIGHT_LAYER_SEGMENTS({7, 2, HSV_CORAL_DARK});
+const rgblight_segment_t PROGMEM _CAPS_LIGHTS[]         = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_RED_DARK}, /* split */ {6, 6, HSV_RED_DARK});
+const rgblight_segment_t PROGMEM _MOUSE_LIGHTS[]        = RGBLIGHT_LAYER_SEGMENTS({6, 6, HSV_CYAN_DARK});
+const rgblight_segment_t PROGMEM _NUMPAD_LIGHTS[]       = RGBLIGHT_LAYER_SEGMENTS({6, 6, HSV_MAGENTA_DARK});
+const rgblight_segment_t PROGMEM _QMK_LIGHTS[]          = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_YELLOW_DARK});
+const rgblight_segment_t PROGMEM _FN_LIGHTS[]           = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_GREEN_DARK}, /* split */ {6, 6, HSV_GREEN_DARK});
+const rgblight_segment_t PROGMEM _GAMING_LIGHTS[]       = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_ORANGE_DARK}, /* split */ {6, 6, HSV_ORANGE_DARK});
+const rgblight_segment_t PROGMEM _GAMING_MOUSE_LIGHTS[] = RGBLIGHT_LAYER_SEGMENTS({6, 6, HSV_CHARTREUSE_DARK});
+
+/* RGB layers. */
+const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(_QWERTY_LIGHTS, _ARROW_LIGHTS, _CAPS_LIGHTS, _MOUSE_LIGHTS, _NUMPAD_LIGHTS, _QMK_LIGHTS, _FN_LIGHTS, _GAMING_LIGHTS, _GAMING_MOUSE_LIGHTS);
+
+/* Turn on capslock rgblight layer when capslock is on. */
+bool led_update_user(led_t led_state) {
+    rgblight_set_layer_state(2, led_state.caps_lock);
+    return true;
 }
 
+/* Turn on capslock rgblight layer when capsword is on. */
+void caps_word_set_user(bool active) {
+    rgblight_set_layer_state(2, active);
+}
+
+/* Stores autoshift state outside of _GAMING. */
+bool desire_autoshift = true;
+
+/* Act when layer state changes. */
+layer_state_t layer_state_set_user(layer_state_t state) {
+    /* Turn on rgblight layers when keymap layers turn on. */
+    rgblight_set_layer_state(0, true); /* Always apply bottom layer. */
+    rgblight_set_layer_state(1, layer_state_cmp(state, _ARROWS));
+    /* The next layer is _CAPS_LIGHTS, which isn't tied to a keymap layer. */
+    rgblight_set_layer_state(3, layer_state_cmp(state, _MOUSE));
+    rgblight_set_layer_state(4, layer_state_cmp(state, _NUMPAD));
+    rgblight_set_layer_state(5, layer_state_cmp(state, _QMK));
+    rgblight_set_layer_state(6, layer_state_cmp(state, _FN));
+    rgblight_set_layer_state(7, layer_state_cmp(state, _GAMING));
+    rgblight_set_layer_state(8, layer_state_cmp(state, _GAMING_MOUSE));
+
+    /* Turn off autoshift in _GAMING. */
+    if (layer_state_cmp(state, _GAMING)) autoshift_disable();
+    /* Turn on autoshift when we return to base layer.
+       (Ideally this would be when we exit _GAME) */
+    if ((get_highest_layer(state) == _QWERTY) && desire_autoshift) autoshift_enable();
+    return state;
+}
+
+/* Setup after the keyboard has been initalized. */
+void keyboard_post_init_user(void) {
+    /* Enable the LED layers. */
+    rgblight_layers = my_rgb_layers;
+    /* Default to having autoshift on. */
+    autoshift_enable();
+}
+
+/* Time before _LAYER deactives after last input. */
+#define NUMPAD_LAYER_TIMEOUT 3000 /* milliseconds */
+#define FN_LAYER_TIMEOUT 2000
+#define QMK_LAYER_TIMEOUT 5000
+
+/* Run when the keyboard scans the matrix.
+   Use minimally, as it runs pretty much constantly. */
+void matrix_scan_user(void) {
+    /* Allow highest layers to time out after going X milliseconds since last input */
+    switch (get_highest_layer(layer_state)) {
+        case _NUMPAD:
+            if (last_input_activity_elapsed() > NUMPAD_LAYER_TIMEOUT) layer_off(_NUMPAD);
+            break;
+        case _FN:
+            if (last_input_activity_elapsed() > FN_LAYER_TIMEOUT) layer_off(_FN);
+            break;
+        case _QMK:
+            if (last_input_activity_elapsed() > QMK_LAYER_TIMEOUT) layer_off(_QMK);
+            break;
+    }
+
+    /* Clean up when turning _GAMING off. */
+    if (IS_LAYER_OFF(_GAMING) && IS_LAYER_ON(_GAMING_MOUSE)) layer_off(_GAMING_MOUSE);
+}
+
+/* React to key presses */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case QWERTY:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(tone_qwerty);
-        #endif
-        persistent_default_layer_set(1UL<<_QWERTY);
-      }
-      return false;
-      break;
-    case COLEMAK:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(tone_colemak);
-        #endif
-        persistent_default_layer_set(1UL<<_COLEMAK);
-      }
-      return false;
-      break;
-    case DVORAK:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(tone_dvorak);
-        #endif
-        persistent_default_layer_set(1UL<<_DVORAK);
-      }
-      return false;
-      break;
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case ADJUST:
-      if (record->event.pressed) {
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
-      }
-      return false;
-      break;
-  }
-  return true;
+    /* Capture autoshift changes to sanely restore autoshift after dropping out of _GAMING. */
+    if (keycode == AS_TOGG) {
+        desire_autoshift = get_autoshift_state();
+    }
+    return true;
 }
-
-#ifdef ENCODER_MAP_ENABLE
-const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [_QWERTY] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
-    [_COLEMAK] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
-    [_DVORAK] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
-    [_LOWER] = { ENCODER_CCW_CW(RGB_MOD, RGB_RMOD), ENCODER_CCW_CW(KC_MNXT, KC_MPRV) },
-    [_RAISE] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) },
-    [_ADJUST] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______) }
-};
-#endif
