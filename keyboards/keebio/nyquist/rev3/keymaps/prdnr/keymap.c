@@ -3,6 +3,8 @@
 /* Layer declarations. */
 enum layer_names { _QWERTY, _ARROWS, _QMK, _NUMPAD, _MOUSE, _FN, _GAMING, _GAMING_MOUSE };
 
+/* Combos */
+/* Todo: find a good place to put page up and down.*/
 /* Combo declarations. */
 /* clang-format off */
 enum combos {
