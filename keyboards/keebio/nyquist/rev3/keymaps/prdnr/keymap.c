@@ -221,6 +221,7 @@ tap_dance_action_t tap_dance_actions[] = {
  * !! Do not use tap dance on the alpha keys or minus.  Doing so wrecks Caps Word.
  * !!
  */
+ /* Todo: consider if the gaming layers are needed, I only play dwarf fortress anymore.*/
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* clang-format off */
     [_QWERTY] = LAYOUT_ortho_4x12(
