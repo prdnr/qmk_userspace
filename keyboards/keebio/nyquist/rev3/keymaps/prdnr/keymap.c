@@ -1,5 +1,7 @@
 #include QMK_KEYBOARD_H
 
+/* Todo: possible feature - replace '  ' with '.  ^shift' */
+
 /* Layer declarations. */
 enum layer_names { _QWERTY, _ARROWS, _QMK, _NUMPAD, _MOUSE, _FN, _GAMING, _GAMING_MOUSE };
 
@@ -221,7 +223,13 @@ tap_dance_action_t tap_dance_actions[] = {
  * !! Do not use tap dance on the alpha keys or minus.  Doing so wrecks Caps Word.
  * !!
  */
- /* Todo: consider if the gaming layers are needed, I only play dwarf fortress anymore.*/
+ /* Todo: consider if the gaming layers are needed, I only play dwarf fortress anymore.
+    Todo: add a 'reading' or 'browsing' layer.  Common actions:
+    - Page Up/Down
+    - Scrolling
+    - Screen Shot
+    - Browse Forward/Backward
+    */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* clang-format off */
     [_QWERTY] = LAYOUT_ortho_4x12(
