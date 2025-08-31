@@ -299,7 +299,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 /* Light layers for keymap layer indication. */
-const rgblight_segment_t PROGMEM _QWERTY_LIGHTS[]       = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_WHITE_DARK}, /* split */ {6, 6, HSV_WHITE_DARK});
+const rgblight_segment_t PROGMEM _QWERTY_LIGHTS[]       = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_BLACK}, /* split */ {6, 6, HSV_BLACK});
 const rgblight_segment_t PROGMEM _ARROW_LIGHTS[]        = RGBLIGHT_LAYER_SEGMENTS({7, 2, HSV_CORAL_DARK});
 const rgblight_segment_t PROGMEM _CAPS_LIGHTS[]         = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_RED_DARK}, /* split */ {6, 6, HSV_RED_DARK});
 const rgblight_segment_t PROGMEM _MOUSE_LIGHTS[]        = RGBLIGHT_LAYER_SEGMENTS({6, 6, HSV_CYAN_DARK});
