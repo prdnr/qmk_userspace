@@ -1,9 +1,10 @@
+#include "keycodes.h"
 #include QMK_KEYBOARD_H
 
 /* Todo: possible feature - replace '  ' with '.  ^shift' */
 
 /* Layer declarations. */
-enum layer_names { _QWERTY, _ARROWS, _QMK, _NUMPAD, _MOUSE, _FN, _GAMING, _GAMING_MOUSE };
+enum layer_names { _QWERTY, _ARROWS, _QMK, _NUMPAD, _MOUSE, _FN };
 
 /* Combos */
 /* Todo: find a good place to put page up and down.*/
@@ -115,23 +116,24 @@ combo_t key_combos[COMBO_COUNT] = {
 };
 /* clang-format on */
 
-/* Decide when to squash combos. */
-bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-    /* Simplify combo selection when in _GAMING layer. */
-    if (IS_LAYER_ON(_GAMING)) {
-        switch (combo_index) {
-            case KM: /* No entry to _MOUSE. */
-            case DF: /* No quick parens. */
-            case FG:
-            case HJ:
-            case JK:
-            case BTNONEBTNTWO: /* No quick KC_MS_BTN3. */
-                return false;
-        }
-    }
+// And example of how to squash combos inside of a layer.  A hold over from when there was a gaming layer
+// /* Decide when to squash combos. */
+// bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+//     /* Simplify combo selection when in _GAMING layer. */
+//     if (IS_LAYER_ON(_GAMING)) {
+//         switch (combo_index) {
+//             case KM: /* No entry to _MOUSE. */
+//             case DF: /* No quick parens. */
+//             case FG:
+//             case HJ:
+//             case JK:
+//             case BTNONEBTNTWO: /* No quick KC_MS_BTN3. */
+//                 return false;
+//         }
+//     }
 
-    return true;
-}
+//     return true;
+// }
 
 /* Enumerate the desired tapdance states to react to. */
 /* clang-format off */
@@ -223,8 +225,7 @@ tap_dance_action_t tap_dance_actions[] = {
  * !! Do not use tap dance on the alpha keys or minus.  Doing so wrecks Caps Word.
  * !!
  */
- /* Todo: consider if the gaming layers are needed, I only play dwarf fortress anymore.
-    Todo: add a 'reading' or 'browsing' layer.  Common actions:
+ /* Todo: add a 'reading' or 'browsing' layer.  Common actions:
     - Page Up/Down
     - Scrolling
     - Screen Shot
@@ -246,7 +247,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_QMK] = LAYOUT_ortho_4x12(
         KC_SLEP, KC_BRID, KC_BRIU, KC_KB_MUTE, KC_KB_VOLUME_DOWN, KC_KB_VOLUME_UP, /*split*/ _______, _______, _______, _______, _______, _______,
-        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TO(_GAMING), /*split*/ _______, _______, _______, _______, _______, _______,
+        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, /*split*/ _______, _______, _______, _______, _______, _______,
         AS_TOGG, XXXXXXX, RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, /*split*/ _______, _______, _______, _______, _______, _______,
         DM_PLY1, DM_PLY2 , DM_RSTP, DM_REC1, DM_REC2, XXXXXXX, /*split*/ _______, _______, _______, _______, _______, _______),
 
@@ -266,19 +267,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, /*split*/ KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
         _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
-        _______, TG(_FN), _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______),
-
-    [_GAMING] = LAYOUT_ortho_4x12(
-        KC_ESC, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
-        KC_TAB, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
-        TG(_GAMING), _______, _______, KC_RALT, KC_LCTL, KC_SPC, /*split*/ _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, TG(_GAMING_MOUSE)),
-
-    [_GAMING_MOUSE] = LAYOUT_ortho_4x12(
-        _______, _______, _______, _______, _______, _______, /*split*/ _______, KC_WH_U, KC_MS_U, KC_WH_D, _______, _______,
-        _______, _______, _______, _______, _______, _______, /*split*/ _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______,
-        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, /*split*/ KC_MS_BTN1, KC_MS_BTN2, KC_MS_BTN3, _______, _______, TG(_GAMING_MOUSE))
+        _______, TG(_FN), _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______)
 
     // [_EMPTY] = LAYOUT_ortho_4x12(
     //     _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
@@ -318,11 +307,9 @@ const rgblight_segment_t PROGMEM _MOUSE_LIGHTS[]        = RGBLIGHT_LAYER_SEGMENT
 const rgblight_segment_t PROGMEM _NUMPAD_LIGHTS[]       = RGBLIGHT_LAYER_SEGMENTS({6, 6, HSV_MAGENTA_DARK});
 const rgblight_segment_t PROGMEM _QMK_LIGHTS[]          = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_YELLOW_DARK});
 const rgblight_segment_t PROGMEM _FN_LIGHTS[]           = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_GREEN_DARK}, /* split */ {6, 6, HSV_GREEN_DARK});
-const rgblight_segment_t PROGMEM _GAMING_LIGHTS[]       = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_ORANGE_DARK}, /* split */ {6, 6, HSV_ORANGE_DARK});
-const rgblight_segment_t PROGMEM _GAMING_MOUSE_LIGHTS[] = RGBLIGHT_LAYER_SEGMENTS({6, 6, HSV_CHARTREUSE_DARK});
 
 /* RGB layers. */
-const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(_QWERTY_LIGHTS, _ARROW_LIGHTS, _CAPS_LIGHTS, _MOUSE_LIGHTS, _NUMPAD_LIGHTS, _QMK_LIGHTS, _FN_LIGHTS, _GAMING_LIGHTS, _GAMING_MOUSE_LIGHTS);
+const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(_QWERTY_LIGHTS, _ARROW_LIGHTS, _CAPS_LIGHTS, _MOUSE_LIGHTS, _NUMPAD_LIGHTS, _QMK_LIGHTS, _FN_LIGHTS);
 
 /* Turn on capslock rgblight layer when capslock is on. */
 bool led_update_user(led_t led_state) {
@@ -348,14 +335,13 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(4, layer_state_cmp(state, _NUMPAD));
     rgblight_set_layer_state(5, layer_state_cmp(state, _QMK));
     rgblight_set_layer_state(6, layer_state_cmp(state, _FN));
-    rgblight_set_layer_state(7, layer_state_cmp(state, _GAMING));
-    rgblight_set_layer_state(8, layer_state_cmp(state, _GAMING_MOUSE));
 
-    /* Turn off autoshift in _GAMING. */
-    if (layer_state_cmp(state, _GAMING)) autoshift_disable();
-    /* Turn on autoshift when we return to base layer.
-       (Ideally this would be when we exit _GAME) */
-    if ((get_highest_layer(state) == _QWERTY) && desire_autoshift) autoshift_enable();
+// An example of managing autoshift state.  From when there was a gaming layer.
+//     /* Turn off autoshift in _GAMING. */
+//    if (layer_state_cmp(state, _GAMING)) autoshift_disable();
+//    /* Turn on autoshift when we return to base layer.
+//       (Ideally this would be when we exit _GAME) */
+//    if ((get_highest_layer(state) == _QWERTY) && desire_autoshift) autoshift_enable();
     return state;
 }
 
@@ -387,9 +373,6 @@ void matrix_scan_user(void) {
             if (last_input_activity_elapsed() > QMK_LAYER_TIMEOUT) layer_off(_QMK);
             break;
     }
-
-    /* Clean up when turning _GAMING off. */
-    if (IS_LAYER_OFF(_GAMING) && IS_LAYER_ON(_GAMING_MOUSE)) layer_off(_GAMING_MOUSE);
 }
 
 /* React to key presses */
