@@ -257,8 +257,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, /*split*/ KC_0, KC_0, KC_0, KC_PDOT, KC_PENT, XXXXXXX),
 
     [_MOUSE] = LAYOUT_ortho_4x12(
-        _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, KC_WH_U, XXXXXXX, KC_WH_D, XXXXXXX, XXXXXXX,
-        _______, _______, _______, _______, _______, _______, /*split*/ KC_MS_L, KC_MS_U, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX,
+        _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, KC_WH_U, KC_MS_U, KC_WH_D, XXXXXXX, XXXXXXX,
+        _______, _______, _______, _______, _______, _______, /*split*/ KC_WH_L, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_R, XXXXXXX,
         _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, TG(_MOUSE), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         _______, _______, _______, _______, _______, _______, /*split*/ KC_MS_BTN1, KC_MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX),
 
