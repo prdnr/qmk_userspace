@@ -207,12 +207,12 @@ void numpad_qmk_dance_reset(tap_dance_state_t *state, void *user_data) {
 }
 
 /* Tap Dance declarations. */
-enum { TD_ESC_TAB, TD_NUMPAD_QMK };
+enum { TD_TAB_ESC, TD_NUMPAD_QMK };
 
 /* Tap Dance definitions. */
 /* clang-format off */
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_ESC_TAB] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_TAB),
+    [TD_TAB_ESC] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, KC_ESC),
     [TD_NUMPAD_QMK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, numpad_qmk_dance_finished, numpad_qmk_dance_reset)
 
 };
@@ -233,7 +233,7 @@ tap_dance_action_t tap_dance_actions[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* clang-format off */
     [_QWERTY] = LAYOUT_ortho_4x12(
-        TD(TD_ESC_TAB), KC_Q, KC_W, KC_E, KC_R, KC_T, /*split*/ KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
+        TD(TD_TAB_ESC), KC_Q, KC_W, KC_E, KC_R, KC_T, /*split*/ KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
         TD(TD_NUMPAD_QMK), KC_A, KC_S, KC_D, KC_F, KC_G, /*split*/ KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_ENT,
         KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, /*split*/ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
         CW_TOGG, OSL(_FN), KC_GRV, KC_LCTL, KC_LOPT, KC_LCMD, /*split*/ KC_SPC, KC_RCTL, KC_INS, DM_REC1, DM_RSTP, DM_PLY1),
