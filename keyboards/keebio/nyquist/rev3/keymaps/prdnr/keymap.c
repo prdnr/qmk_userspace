@@ -3,7 +3,7 @@
 /* Todo: possible feature - replace '  ' with '.  ^shift' */
 
 /* Layer declarations. */
-enum layer_names { _QWERTY, _ARROWS, _QMK, _NUMPAD, _MOUSE, _FN };
+enum layer_names { _QWERTY, _QMK, _NUMPAD, _NAVIGATION, _FN };
 
 /* Combos */
 /* Todo: find a good place to put page up and down.*/
@@ -22,8 +22,6 @@ enum combos {
     DF, FG, HJ, JK,
     /* Mouse. */
     KM, BTNONEBTNTWO, WHEELUPWHEELDOWN,
-    /* Arrow Keys. */
-    RECONERSTPPLYONE, DOWNUPRIGHT,
     /* Numpad. */
     KEYPADMINUSKEYPADPLUS, KEYPADPLUSKEPADEQUAL
 };
@@ -65,10 +63,6 @@ const uint16_t PROGMEM km_combo[]               = {KC_K, KC_M, COMBO_END};
 const uint16_t PROGMEM btnonebtntwo_combo[]     = {KC_MS_BTN1, KC_MS_BTN2, COMBO_END};
 const uint16_t PROGMEM wheelupwheeldown_combo[] = {KC_WH_U, KC_WH_D, COMBO_END};
 
-/* Arrow Keys. */
-const uint16_t PROGMEM reconerstpplyone_combo[] = {DM_REC1, DM_RSTP, DM_PLY1, COMBO_END};
-const uint16_t PROGMEM downupright_combo[]      = {KC_UP, KC_DOWN, KC_RIGHT, COMBO_END};
-
 /* Numpad. */
 const uint16_t PROGMEM keypadminskeypadplus_combo[]  = {KC_PMNS, KC_PPLS, COMBO_END};
 const uint16_t PROGMEM keypadpluskeypadequal_combo[] = {KC_PPLS, KC_PEQL, COMBO_END};
@@ -102,13 +96,10 @@ combo_t key_combos[COMBO_COUNT] = {
     [FG] = COMBO(fg_combo, KC_LEFT_PAREN),
     [HJ] = COMBO(hj_combo, KC_RIGHT_PAREN),
     [JK] = COMBO(jk_combo, KC_RIGHT_BRACKET),
-    [KM] = COMBO(km_combo, TG(_MOUSE)),
-    /* Mouse. */
+    [KM] = COMBO(km_combo, TG(_NAVIGATION)),
+    /* Navigation. */
     [BTNONEBTNTWO] = COMBO(btnonebtntwo_combo, KC_MS_BTN3),
     [WHEELUPWHEELDOWN] = COMBO(wheelupwheeldown_combo, KC_MS_BTN3),
-    /* Arrow Keys. */
-    [RECONERSTPPLYONE] =COMBO(reconerstpplyone_combo, TG(_ARROWS)),
-    [DOWNUPRIGHT] = COMBO(downupright_combo, TG(_ARROWS)),
     /* Numpad. */
     [KEYPADMINUSKEYPADPLUS] = COMBO(keypadminskeypadplus_combo, KC_PAST),
     [KEYPADPLUSKEPADEQUAL] = COMBO(keypadpluskeypadequal_combo, KC_PSLS)
@@ -121,7 +112,7 @@ combo_t key_combos[COMBO_COUNT] = {
 //     /* Simplify combo selection when in _GAMING layer. */
 //     if (IS_LAYER_ON(_GAMING)) {
 //         switch (combo_index) {
-//             case KM: /* No entry to _MOUSE. */
+//             case KM: /* No entry to _NAVIGATION. */
 //             case DF: /* No quick parens. */
 //             case FG:
 //             case HJ:
@@ -238,12 +229,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, /*split*/ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
         CW_TOGG, OSL(_FN), KC_GRV, KC_LCTL, KC_LOPT, KC_LCMD, /*split*/ KC_SPC, KC_RCTL, KC_INS, DM_REC1, DM_RSTP, DM_PLY1),
 
-    [_ARROWS] = LAYOUT_ortho_4x12(
-        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, /*split*/ _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT),
-
     [_QMK] = LAYOUT_ortho_4x12(
         KC_SLEP, KC_BRID, KC_BRIU, KC_KB_MUTE, KC_KB_VOLUME_DOWN, KC_KB_VOLUME_UP, /*split*/ _______, _______, _______, _______, _______, _______,
         _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, /*split*/ _______, _______, _______, _______, _______, _______,
@@ -256,11 +241,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, KC_1, KC_2, KC_3, KC_PEQL, XXXXXXX,
         _______, _______, _______, _______, _______, _______, /*split*/ KC_0, KC_0, KC_0, KC_PDOT, KC_PENT, XXXXXXX),
 
-    [_MOUSE] = LAYOUT_ortho_4x12(
-        _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, KC_WH_D, KC_MS_U, KC_WH_U, XXXXXXX, XXXXXXX,
-        _______, _______, _______, _______, _______, _______, /*split*/ KC_WH_L, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_R, XXXXXXX,
-        _______, _______, _______, _______, _______, _______, /*split*/ XXXXXXX, TG(_MOUSE), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        _______, _______, _______, _______, _______, _______, /*split*/ KC_MS_BTN1, KC_MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX),
+    [_NAVIGATION] = LAYOUT_ortho_4x12(
+        XXXXXXX, XXXXXXX, KC_UP  , XXXXXXX , KC_PAGE_UP  , XXXXXXX, /*split*/ XXXXXXX, KC_WH_D, KC_MS_U, KC_WH_U, XXXXXXX, XXXXXXX,
+        XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PAGE_DOWN, XXXXXXX, /*split*/ KC_WH_L, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_R, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX     , XXXXXXX, /*split*/ XXXXXXX, TG(_NAVIGATION), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX     , XXXXXXX, /*split*/ KC_MS_BTN1, KC_MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX),
 
     [_FN] = LAYOUT_ortho_4x12(
         KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, /*split*/ KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12,
@@ -300,25 +285,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Light layers for keymap layer indication. */
 const rgblight_segment_t PROGMEM _QWERTY_LIGHTS[]       = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_BLACK}, /* split */ {6, 6, HSV_BLACK});
-const rgblight_segment_t PROGMEM _ARROW_LIGHTS[]        = RGBLIGHT_LAYER_SEGMENTS({7, 2, HSV_CORAL_DARK});
 const rgblight_segment_t PROGMEM _CAPS_LIGHTS[]         = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_RED_DARK}, /* split */ {6, 6, HSV_RED_DARK});
-const rgblight_segment_t PROGMEM _MOUSE_LIGHTS[]        = RGBLIGHT_LAYER_SEGMENTS({6, 6, HSV_CYAN_DARK});
+const rgblight_segment_t PROGMEM _NAVIGATION_LIGHTS[]   = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_CYAN_DARK}, /* split */ {6, 6, HSV_CYAN_DARK});
 const rgblight_segment_t PROGMEM _NUMPAD_LIGHTS[]       = RGBLIGHT_LAYER_SEGMENTS({6, 6, HSV_MAGENTA_DARK});
 const rgblight_segment_t PROGMEM _QMK_LIGHTS[]          = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_YELLOW_DARK});
 const rgblight_segment_t PROGMEM _FN_LIGHTS[]           = RGBLIGHT_LAYER_SEGMENTS({0, 6, HSV_GREEN_DARK}, /* split */ {6, 6, HSV_GREEN_DARK});
 
 /* RGB layers. */
-const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(_QWERTY_LIGHTS, _ARROW_LIGHTS, _CAPS_LIGHTS, _MOUSE_LIGHTS, _NUMPAD_LIGHTS, _QMK_LIGHTS, _FN_LIGHTS);
+const rgblight_segment_t *const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(_QWERTY_LIGHTS, _CAPS_LIGHTS, _NAVIGATION_LIGHTS, _NUMPAD_LIGHTS, _QMK_LIGHTS, _FN_LIGHTS);
 
 /* Turn on capslock rgblight layer when capslock is on. */
 bool led_update_user(led_t led_state) {
-    rgblight_set_layer_state(2, led_state.caps_lock);
+    rgblight_set_layer_state(1, led_state.caps_lock);
     return true;
 }
 
 /* Turn on capslock rgblight layer when capsword is on. */
 void caps_word_set_user(bool active) {
-    rgblight_set_layer_state(2, active);
+    rgblight_set_layer_state(1, active);
 }
 
 /* Stores autoshift state outside of _GAMING. */
@@ -328,12 +312,11 @@ bool desire_autoshift = true;
 layer_state_t layer_state_set_user(layer_state_t state) {
     /* Turn on rgblight layers when keymap layers turn on. */
     rgblight_set_layer_state(0, true); /* Always apply bottom layer. */
-    rgblight_set_layer_state(1, layer_state_cmp(state, _ARROWS));
     /* The next layer is _CAPS_LIGHTS, which isn't tied to a keymap layer. */
-    rgblight_set_layer_state(3, layer_state_cmp(state, _MOUSE));
-    rgblight_set_layer_state(4, layer_state_cmp(state, _NUMPAD));
-    rgblight_set_layer_state(5, layer_state_cmp(state, _QMK));
-    rgblight_set_layer_state(6, layer_state_cmp(state, _FN));
+    rgblight_set_layer_state(2, layer_state_cmp(state, _NAVIGATION));
+    rgblight_set_layer_state(3, layer_state_cmp(state, _NUMPAD));
+    rgblight_set_layer_state(4, layer_state_cmp(state, _QMK));
+    rgblight_set_layer_state(5, layer_state_cmp(state, _FN));
 
 // An example of managing autoshift state.  From when there was a gaming layer.
 //     /* Turn off autoshift in _GAMING. */
