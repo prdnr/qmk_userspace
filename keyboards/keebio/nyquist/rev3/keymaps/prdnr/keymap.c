@@ -1,3 +1,4 @@
+#include "keycodes.h"
 #include QMK_KEYBOARD_H
 
 /* Todo: possible feature - replace '  ' with '.  ^shift' */
@@ -242,9 +243,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, /*split*/ KC_0, KC_0, KC_0, KC_PDOT, KC_PENT, XXXXXXX),
 
     [_NAVIGATION] = LAYOUT_ortho_4x12(
-        XXXXXXX, XXXXXXX, KC_UP  , XXXXXXX , KC_PAGE_UP  , XXXXXXX, /*split*/ XXXXXXX, KC_WH_D, KC_MS_U, KC_WH_U, XXXXXXX, XXXXXXX,
-        XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PAGE_DOWN, XXXXXXX, /*split*/ KC_WH_L, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_R, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX     , XXXXXXX, /*split*/ XXXXXXX, TG(_NAVIGATION), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, KC_UP  , XXXXXXX , KC_PAGE_UP  , XXXXXXX, /*split*/ XXXXXXX, KC_WH_D, KC_MS_U, KC_WH_U, XXXXXXX, KC_MS_ACCEL0,
+        XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PAGE_DOWN, XXXXXXX, /*split*/ KC_WH_L, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_R, KC_MS_ACCEL1,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX     , XXXXXXX, /*split*/ XXXXXXX, TG(_NAVIGATION), XXXXXXX, XXXXXXX, XXXXXXX, KC_MS_ACCEL2,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX     , XXXXXXX, /*split*/ KC_MS_BTN1, KC_MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX),
 
     [_FN] = LAYOUT_ortho_4x12(
@@ -263,24 +264,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* clang-format on */
 };
 
-#define HSV_AZURE_DARK       132, 102, 40
-#define HSV_BLUE_DARK        170, 255, 40
-#define HSV_CHARTREUSE_DARK   64, 255, 40
-#define HSV_CORAL_DARK        11, 176, 40
-#define HSV_CYAN_DARK        128, 255, 40
-#define HSV_GOLD_DARK         36, 255, 40
-#define HSV_GOLDENROD_DARK    30, 218, 40
-#define HSV_GREEN_DARK        85, 255, 40
-#define HSV_MAGENTA_DARK     213, 255, 40
-#define HSV_ORANGE_DARK       21, 255, 40
-#define HSV_PINK_DARK        234, 128, 40
-#define HSV_PURPLE_DARK      191, 255, 40
-#define HSV_RED_DARK           0, 255, 40
-#define HSV_SPRINGGREEN_DARK 106, 255, 40
-#define HSV_TEAL_DARK        128, 255, 40
-#define HSV_TURQUOISE_DARK   123,  90, 40
-#define HSV_WHITE_DARK         0,   0, 40
-#define HSV_YELLOW_DARK       43, 255, 40
+#define HSV_AZURE_DARK       132, 102, 150
+#define HSV_BLUE_DARK        170, 255, 150
+#define HSV_CHARTREUSE_DARK   64, 255, 150
+#define HSV_CORAL_DARK        11, 176, 150
+#define HSV_CYAN_DARK        128, 255, 150
+#define HSV_GOLD_DARK         36, 255, 150
+#define HSV_GOLDENROD_DARK    30, 218, 150
+#define HSV_GREEN_DARK        85, 255, 150
+#define HSV_MAGENTA_DARK     213, 255, 150
+#define HSV_ORANGE_DARK       21, 255, 150
+#define HSV_PINK_DARK        234, 128, 150
+#define HSV_PURPLE_DARK      191, 255, 150
+#define HSV_RED_DARK           0, 255, 150
+#define HSV_SPRINGGREEN_DARK 106, 255, 150
+#define HSV_TEAL_DARK        128, 255, 150
+#define HSV_TURQUOISE_DARK   123,  90, 150
+#define HSV_WHITE_DARK         0,   0, 150
+#define HSV_YELLOW_DARK       43, 255, 150
 
 
 /* Light layers for keymap layer indication. */
